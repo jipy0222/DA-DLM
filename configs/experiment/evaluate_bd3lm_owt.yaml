@@ -1,0 +1,10 @@
+# @package _global_
+defaults:
+  - override /model: null
+  - override /data: owt
+  - override /generation: bd3lm_text
+  - override /evaluation: text
+
+mode: evaluate_text
+seed: 1111
+output_dir: ./outputs/evaluation/bd3lm_owt

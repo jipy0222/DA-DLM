@@ -1,0 +1,10 @@
+# @package _global_
+defaults:
+  - override /model: null
+  - override /data: xsum
+  - override /generation: dadlm_summary
+  - override /evaluation: summary
+
+mode: evaluate_summary
+seed: 1111
+output_dir: ./outputs/evaluation/dadlm_xsum

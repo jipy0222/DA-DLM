@@ -1,0 +1,23 @@
+# @package _global_
+defaults:
+  - override /data: owt
+  - override /model: bd3lm
+
+model:
+  block_size: 16
+runtime:
+  local_batch_size: 32
+  eval_batch_size: 32
+  accumulate_grad_batches: 1
+  devices: 8
+  num_nodes: 2
+  strategy: ddp
+  max_steps: 300000
+validation:
+  every_updates: 10000
+checkpoint:
+  periodic_every_updates: 10000
+startup:
+  mode: initialize
+  path: null
+  source_kind: native

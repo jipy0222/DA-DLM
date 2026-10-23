@@ -1,0 +1,9 @@
+generation_length: 960
+sampling:
+  greedy: false
+  top_k: 0
+  top_p: 0.9
+stop:
+  mode: none
+diffusion: null
+dag: null

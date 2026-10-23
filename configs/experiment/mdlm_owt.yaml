@@ -1,0 +1,20 @@
+# @package _global_
+defaults:
+  - override /data: owt
+  - override /model: mdlm
+
+runtime:
+  local_batch_size: 32
+  eval_batch_size: 32
+  accumulate_grad_batches: 2
+  devices: 8
+  num_nodes: 1
+  strategy: ddp
+  max_steps: 150000
+validation:
+  every_updates: 10000
+checkpoint:
+  periodic_every_updates: 10000
+startup:
+  mode: fresh
+  path: null

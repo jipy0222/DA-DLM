@@ -1,0 +1,22 @@
+# @package _global_
+defaults:
+  - summary_base
+  - override /data: cnn
+  - override /model: bd3lm
+
+model:
+  block_size: 16
+runtime:
+  local_batch_size: 16
+  eval_batch_size: 16
+  accumulate_grad_batches: 2
+  devices: 8
+  num_nodes: 2
+  strategy: ddp
+  max_steps: 10000
+validation:
+  every_updates: 225
+checkpoint:
+  periodic_every_updates: 1000
+logging:
+  name: bd3lm_cnn

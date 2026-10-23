@@ -1,0 +1,101 @@
+defaults:
+  - data: owt
+  - model: ar
+  - optional evaluation: null
+  - optional generation: null
+  - _self_
+  - optional experiment: null
+  - override hydra/job_logging: disabled
+  - override hydra/hydra_logging: disabled
+
+# The default mode checks and prints configuration without running a task.
+mode: bootstrap  # prepare | pretrain | validate | prepare_summary | finetune | validate_summary | evaluate_summary | evaluate_text | score_text
+seed: 1
+output_dir: ./outputs/pretraining
+
+training:
+  optimizer:
+    lr: 3.0e-4
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+    weight_decay: 0.0
+  schedule:
+    kind: constant_warmup
+    warmup_steps: 2500
+    total_steps: null
+    warmup_lr_init: 0.0
+    min_lr: 0.0
+  ema_decay: 0.9999
+  diffusion:
+    noise:
+      name: loglinear
+      eps: 1.0e-3
+    t_min: 1.0e-3
+    t_max: 1.0
+    antithetic_sampling: true
+    ignore_bos: true
+    full_mask: false
+    # Independent Monte Carlo draws per validation batch.
+    num_eval_repeats: 1
+  # null selects canonical for grouped DADLM and uniform for free DADLM.
+  assignment: null
+  monitor_coherence: false
+
+runtime:
+  local_batch_size: 64
+  eval_batch_size: 64
+  loader_num_workers: 8
+  pin_memory: true
+  accumulate_grad_batches: 1
+  accelerator: cuda
+  devices: 1
+  num_nodes: 1
+  strategy: auto
+  precision: bf16-mixed
+  # Both limits count optimizer updates/epochs as Lightning defines them.
+  max_steps: 500000
+  max_epochs: -1
+  gradient_clip_val: 1.0
+  log_every_n_steps: 200
+  enable_progress_bar: true
+  enable_model_summary: true
+
+validation:
+  every_updates: 10000  # null disables validation during training.
+  num_sanity_steps: 2
+  limit_batches: 1.0
+  # Match training validation: prefer EMA when present, otherwise raw weights.
+  weights: auto  # auto | raw | ema
+
+checkpoint:
+  periodic_every_updates: 10000
+  keep_periodic: -1
+  save_top_k: 1
+  save_last: true
+
+startup:
+  mode: fresh  # fresh | initialize | resume
+  path: null
+  weights: raw  # applies to initialize only
+  source_kind: native  # native | mdlm
+  source_config: null
+  source_tokenizer_path: null
+  source_mask_token_id: null
+
+logging:
+  backend: tensorboard  # tensorboard | csv | none
+  name: pretraining
+  save_dir: ${output_dir}/logs
+
+graph:
+  backend: auto  # auto | pytorch | cuda
+  cuda:
+    # DADLM runs this after each worker has its assigned device, before batch 1.
+    warmup_before_training: true
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job:
+    chdir: false

@@ -1,0 +1,12 @@
+# Source-only prompt; G includes the fixed summary BOS. Adapt G to the
+# checkpoint's target width; 256 is the example target budget here.
+generation_length: 256
+include_prompt: false  # Score only the generated summary body.
+sampling:
+  greedy: false
+  top_k: 0
+  top_p: 1.0
+stop:
+  mode: trim_suffix
+# The preset resolves summary EOS and forbidden role IDs from NativeTokenSchema.
+# Set mode: none (and pass StopConfig()) to disable EOS stopping explicitly.

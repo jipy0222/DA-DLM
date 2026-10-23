@@ -1,0 +1,12 @@
+# Keep annotation and import checks aligned with ty's runtime scope.
+target-version = "py39"
+include = [
+    "main.py", "progress.py", "data/**/*.py", "evaluation/**/*.py",
+    "generation/**/*.py", "graph/**/*.py", "kv_cache/**/*.py", "models/**/*.py",
+    "objectives/**/*.py", "training/**/*.py", "weight_adapters/**/*.py",
+]
+
+[lint]
+select = ["E4", "E9", "F", "I", "ANN"]
+# Dynamic framework, configuration, and serialization boundaries may use Any.
+ignore = ["ANN401"]

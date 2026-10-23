@@ -1,0 +1,14 @@
+profile: xsum
+corpus_path: null
+revision: local-xsum-snapshot
+tokenizer_path: null
+tokenizer_id: gpt2
+store_dir: ${output_dir}/data/${data.profile}
+prepared_tokenizer_dir: ${data.store_dir}/tokenizer
+train_split: train
+validation_split: validation
+max_source_tokens: 768
+max_target_tokens: 256
+source_field: document
+reference_field: summary
+preparation_num_workers: 8

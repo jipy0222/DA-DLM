@@ -1,0 +1,22 @@
+# @package _global_
+model:
+  trained_context_length: 1024
+
+training:
+  optimizer:
+    lr: 2.0e-4
+  schedule:
+    warmup_steps: 1500
+  ema_decay: 0.9999
+  diffusion:
+    full_mask: false
+    num_eval_repeats: 5
+
+runtime:
+  log_every_n_steps: 20
+
+startup:
+  mode: initialize
+  path: null
+  weights: raw
+  source_kind: native

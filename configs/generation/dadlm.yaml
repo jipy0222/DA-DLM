@@ -1,0 +1,22 @@
+# Combine with text.yaml or summary.yaml for budget, start and stop behavior.
+# Set num_steps explicitly for the experiment; block size/ratio come from model.
+dag:
+  decoder: ffbs
+  confidence_transition_weight: 0.5
+  graph_backend: auto
+sampling:
+  greedy: false  # Set true together with decoder: viterbi.
+  top_k: 0
+  top_p: 0.9
+diffusion:
+  num_steps: null
+  strategy: default
+  confidence_temperature: 0.0
+  confidence_threshold: 0.9
+  fallback_k: 1
+  nearby_unmask_lambda: 1.0
+  nearby_decay: 0.3
+  remask_rho: 0.5
+  infilling_k: 0
+  infilling_min_context: 0.0
+  infilling_threshold: 0.0

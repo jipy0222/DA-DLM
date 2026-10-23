@@ -1,0 +1,21 @@
+generation_length: null
+include_prompt: false
+sampling:
+  greedy: true
+  top_k: 0
+  top_p: 1.0
+stop:
+  mode: trim_suffix
+diffusion:
+  num_steps: null
+  strategy: confidence
+  confidence_threshold: 0.9
+  fallback_k: 1
+  confidence_temperature: 0.0
+  nearby_unmask_lambda: 1.0
+  nearby_decay: 0.0
+  remask_rho: 0.0
+  infilling_k: 0
+  infilling_min_context: 0.0
+  infilling_threshold: 0.0
+dag: null

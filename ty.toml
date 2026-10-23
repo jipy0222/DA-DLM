@@ -1,0 +1,21 @@
+[environment]
+python-version = "3.9"
+
+[src]
+include = [
+    "main.py", "progress.py", "data", "evaluation", "generation",
+    "graph", "kv_cache", "models", "objectives", "training", "weight_adapters",
+]
+
+[rules]
+dynamic-function-decorator-return = "error"
+missing-type-argument = "error"
+possibly-unresolved-reference = "warn"
+unsound-return-statement = "error"
+
+# torch.nn.Module.forward is a Callable attribute upstream; implementing the
+# documented PyTorch forward method is intentional in all model subclasses.
+[[overrides]]
+include = ["models/**"]
+[overrides.rules]
+invalid-mutable-override = "ignore"

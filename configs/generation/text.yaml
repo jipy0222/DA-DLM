@@ -1,0 +1,11 @@
+# Ordinary text preset. G counts the fixed BOS only when there is no prompt.
+# The default 64-token evaluation prompt leaves G = 960 in a 1024-token window.
+generation_length: 960
+sampling:
+  greedy: false
+  top_k: 0
+  top_p: 1.0
+stop:
+  mode: none
+# Resolve NativeTokenSchema role IDs at runtime; never put tokenizer-specific
+# numerical IDs in this file. Supply DiffusionConfig/num_steps separately.

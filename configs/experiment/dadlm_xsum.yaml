@@ -1,0 +1,26 @@
+# @package _global_
+defaults:
+  - summary_base
+  - override /data: xsum
+  - override /model: dadlm
+
+model:
+  block_size: 16
+  grouped: true
+  transition_normalization: local
+training:
+  assignment: canonical
+runtime:
+  local_batch_size: 12
+  eval_batch_size: 12
+  accumulate_grad_batches: 2
+  devices: 8
+  num_nodes: 3
+  strategy: ddp
+  max_steps: 8000
+validation:
+  every_updates: 150
+checkpoint:
+  periodic_every_updates: 1000
+logging:
+  name: dadlm_xsum

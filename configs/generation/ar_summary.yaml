@@ -1,0 +1,10 @@
+generation_length: null
+include_prompt: false
+sampling:
+  greedy: true
+  top_k: 0
+  top_p: 1.0
+stop:
+  mode: trim_suffix
+diffusion: null
+dag: null

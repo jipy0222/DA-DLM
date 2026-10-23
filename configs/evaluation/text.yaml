@@ -1,0 +1,27 @@
+weights: ema
+progress: true
+split: validation
+prompt_length: 64
+num_samples: 5000
+shuffle: false
+batch_size: 32
+num_workers: 0
+preparation_num_workers: 1
+pin_memory: true
+device: cuda
+precision: bf16
+# The workflow creates a tokenizer-validated cache beside the output by default.
+store_dir: null
+# Set this to a completed generation directory when mode=score_text.
+records_path: null
+scoring:
+  enabled: [genppl, mauve, coherence, entropy, diversity]
+  model_path: null
+  tokenizer_path: null
+  device: ${evaluation.device}
+  batch_size: 8
+  max_length: null
+  stride: 512
+  mauve_max_length: 1024
+  mauve_num_buckets: null
+  seed: ${seed}

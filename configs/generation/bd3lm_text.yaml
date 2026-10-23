@@ -1,0 +1,21 @@
+generation_length: 960
+sampling:
+  greedy: false
+  top_k: 0
+  top_p: 0.9
+stop:
+  mode: none
+diffusion:
+  # null selects block_size denoising steps for each generated block.
+  num_steps: null
+  strategy: default
+  confidence_threshold: 0.9
+  fallback_k: 1
+  confidence_temperature: 0.0
+  nearby_unmask_lambda: 1.0
+  nearby_decay: 0.0
+  remask_rho: 0.0
+  infilling_k: 0
+  infilling_min_context: 0.0
+  infilling_threshold: 0.0
+dag: null

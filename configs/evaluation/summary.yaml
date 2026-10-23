@@ -1,0 +1,11 @@
+weights: ema
+progress: true
+split: test
+max_examples: null
+shuffle: false
+device: cuda
+precision: bf16
+batch_size: 16
+num_workers: 0
+preparation_num_workers: 1
+pin_memory: true

@@ -1,0 +1,14 @@
+profile: owt_tiny
+sequence_length: 1024
+corpus_path: null
+revision: local-owt-tiny-snapshot
+tokenizer_path: null
+tokenizer_id: gpt2
+train_store_dir: ${output_dir}/data/owt_tiny/train
+validation_store_dir: ${output_dir}/data/owt_tiny/validation
+prepared_tokenizer_dir: ${data.train_store_dir}/tokenizer
+column: text
+packing_batch_size: 1000
+packing_num_workers: 8
+document_eos: true
+window_bos_eos: true

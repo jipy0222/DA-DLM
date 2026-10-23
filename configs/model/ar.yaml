@@ -1,0 +1,18 @@
+family: ar
+trained_context_length: ${data.sequence_length}
+max_generation_length: null  # Total prompt + generated content; null uses trained_context_length.
+block_size: null
+dag_up_ratio: null
+grouped: null
+transition_normalization: null
+hidden_size: 768
+cond_dim: null
+n_layers: 12
+n_heads: 12
+mlp_ratio: 4
+rope_base: 10000.0
+dropout: 0.1
+attention_backend: sdpa
+tie_word_embeddings: false
+conditioning: none
+timestep_embedding_size: 256

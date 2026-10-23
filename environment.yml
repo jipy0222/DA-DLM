@@ -1,0 +1,20 @@
+# Optional tested Linux x86_64 environment, not a GPU-specific requirement.
+name: dadlm
+channels:
+  - nvidia/label/cuda-12.8.1
+  - defaults
+dependencies:
+  - python=3.9.25
+  - pip
+  # CUDA development components for PyTorch's graph extension JIT.
+  # Keep the compiler and headers together; do not borrow wheel include paths.
+  - cuda-nvcc=12.8.93
+  - cuda-cudart-dev=12.8.90
+  - cuda-cccl=12.8.90
+  - libcublas-dev=12.8.4.1
+  - libcusparse-dev=12.5.8.93
+  - libcusolver-dev=11.7.3.90
+  - gcc_linux-64=14.3.0
+  - gxx_linux-64=14.3.0
+  - pip:
+      - -r requirements.txt
