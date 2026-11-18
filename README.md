@@ -23,14 +23,12 @@ Start from scratch. Prepare a local OpenWebText Dataset and GPT-2 tokenizer, the
 export CORPUS_PATH=/path/to/owt
 export TOKENIZER_PATH=/path/to/gpt2
 export OUTPUT_DIR="$PWD/outputs/dadlm_owt"
-export REVISION=79d93d786212f7344586290adb811d4ae6a1762c
 
 bash scripts/pretraining/prepare_owt.sh
 
 EXPERIMENT=dadlm_owt GPUS_PER_NODE=8 \
   bash scripts/pretraining/pretrain_single_node.sh \
     startup.mode=fresh startup.path=null \
-    data.revision="$REVISION" \
     runtime.local_batch_size=12 runtime.accumulate_grad_batches=2
 ```
 

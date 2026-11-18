@@ -18,9 +18,6 @@ case "${MODE}" in
     if [[ -n "${TOKENIZER_PATH:-}" ]]; then
       set -- "startup.source_tokenizer_path=${TOKENIZER_PATH}" "$@"
     fi
-    if [[ -n "${REVISION:-}" ]]; then
-      set -- "data.revision=${REVISION}" "$@"
-    fi
     ;;
   score_text)
     : "${RECORDS_PATH:?set RECORDS_PATH to a completed text generation directory}"

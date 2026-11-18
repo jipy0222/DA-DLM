@@ -34,7 +34,6 @@ def summary_store_metadata(
     config: SummaryConfig,
     *,
     profile: str,
-    revision: str,
     tokenizer_id: str,
     train_split: str,
     validation_split: str,
@@ -47,7 +46,6 @@ def summary_store_metadata(
         "task": {
             "kind": "summary",
             "profile": profile,
-            "revision": revision,
             "train_split": train_split,
             "validation_split": validation_split,
             "summary": asdict(config),
@@ -68,7 +66,7 @@ def _manifest(path: Path, expected_metadata: Mapping[str, Any]) -> tuple[dict[st
                    for name in _SPLITS)):
         raise ValueError("invalid summary store row counts")
     identity = _json({
-        "path": str(path), "metadata": metadata, "num_rows": counts,
+        "metadata": metadata, "num_rows": counts,
     })
     return cast('tuple[dict[str, int], str]', (counts, identity))
 
@@ -114,7 +112,6 @@ def prepare_summary_store(
     *,
     store_dir: Pathish,
     profile: str,
-    revision: str,
     tokenizer_id: str,
     train_split: str,
     validation_split: str,
@@ -122,8 +119,8 @@ def prepare_summary_store(
 ) -> tuple[Dataset, Dataset]:
     """Build a prepared summary store once, or reopen the complete store."""
     metadata = summary_store_metadata(
-        schema, config, profile=profile, revision=revision,
-        tokenizer_id=tokenizer_id, train_split=train_split,
+        schema, config, profile=profile, tokenizer_id=tokenizer_id,
+        train_split=train_split,
         validation_split=validation_split,
     )
     target = Path(store_dir).expanduser().resolve()

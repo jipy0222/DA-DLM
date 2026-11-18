@@ -37,7 +37,6 @@ def prepare_pretraining_datasets(
     schema: NativeTokenSchema,
     *,
     profile: str,
-    revision: str,
     tokenizer_id: str,
     train_store_dir: Pathish,
     validation_store_dir: Pathish,
@@ -55,7 +54,7 @@ def prepare_pretraining_datasets(
     corpora = [
         select_corpus_split(
             dataset, profile=profile, split=split,
-            source=str(corpus_path), revision=revision, column=column,
+            column=column,
         )
         for split, _, _ in requests
     ]
@@ -70,8 +69,7 @@ def prepare_pretraining_datasets(
         prepared.append(build_token_store(
             corpus, tokenizer, schema, packing,
             store_dir=store_dir, source=corpus.source,
-            revision=corpus.revision, split=corpus.split,
-            tokenizer_id=tokenizer_id,
+            split=corpus.split, tokenizer_id=tokenizer_id,
         ))
     return prepared[0], prepared[1]
 
@@ -82,7 +80,6 @@ def prepare_pretraining_datamodule(
     schema: NativeTokenSchema,
     *,
     profile: str,
-    revision: str,
     tokenizer_id: str,
     train_store_dir: Pathish,
     validation_store_dir: Pathish,
@@ -99,8 +96,8 @@ def prepare_pretraining_datamodule(
 ) -> TrainingDataModule:
     """Prepare token stores and assemble loaders with loader_num_workers workers."""
     train_dataset, validation_dataset = prepare_pretraining_datasets(
-        corpus_path, tokenizer, schema, profile=profile, revision=revision,
-        tokenizer_id=tokenizer_id, train_store_dir=train_store_dir,
+        corpus_path, tokenizer, schema, profile=profile, tokenizer_id=tokenizer_id,
+        train_store_dir=train_store_dir,
         validation_store_dir=validation_store_dir,
         train_packing=train_packing, validation_packing=validation_packing,
         column=column,

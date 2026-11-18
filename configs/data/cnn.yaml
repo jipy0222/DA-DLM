@@ -1,6 +1,5 @@
 profile: cnn
 corpus_path: null
-revision: local-cnn-snapshot
 tokenizer_path: null
 tokenizer_id: gpt2
 store_dir: ${output_dir}/data/${data.profile}

@@ -71,7 +71,7 @@ def prepare(config: DictConfig) -> dict[str, int | str]:
     packing = _packing(config)
     train, valid = prepare_pretraining_datasets(
         config.data.corpus_path, tokenizer, tokens, profile=config.data.profile,
-        revision=config.data.revision, tokenizer_id=config.data.tokenizer_id,
+        tokenizer_id=config.data.tokenizer_id,
         train_store_dir=config.data.train_store_dir,
         validation_store_dir=config.data.validation_store_dir,
         train_packing=packing, validation_packing=packing, column=config.data.column,
@@ -98,7 +98,7 @@ def _prepared(config: DictConfig, *, validation_only: bool = False) -> tuple[
     for split, path in paths:
         dataset = TokenDataset(path)
         expected = {"special_ids": tokens.to_dict(), "packing": packing,
-                    "revision": config.data.revision, "tokenizer": config.data.tokenizer_id,
+                    "tokenizer": config.data.tokenizer_id,
                     "split": config.data.profile + ":" + split}
         for key, value in expected.items():
             if dataset.metadata[key] != value:

@@ -6,9 +6,6 @@ set -eu
 
 EXPERIMENT="${EXPERIMENT:-ar_cnn}"
 OUTPUT_DIR="${OUTPUT_DIR:-./outputs/${EXPERIMENT}}"
-if [[ -n "${REVISION:-}" ]]; then
-  set -- "data.revision=${REVISION}" "$@"
-fi
 
 python main.py \
   mode=prepare_summary \

@@ -24,7 +24,6 @@ if TYPE_CHECKING:
 class CorpusSplit:
     rows: Dataset
     source: Metadata
-    revision: str
     split: str
     preprocessing: str
     column: str = "text"
@@ -37,7 +36,7 @@ class CorpusSplit:
 
 
 def select_corpus_split(dataset: Dataset | DatasetDict, *, profile: str, split: str,
-                        source: str, revision: str, column: str = "text") -> CorpusSplit:
+                        column: str = "text") -> CorpusSplit:
     """Select profile-defined raw rows before tokenization and packing.
 
     ``owt``: train excludes the final 100000 rows; validation is those rows.
@@ -49,8 +48,6 @@ def select_corpus_split(dataset: Dataset | DatasetDict, *, profile: str, split: 
         raise TypeError("dataset must be a Hugging Face Dataset or DatasetDict")
     if split not in {"train", "validation"}:
         raise ValueError("split must be train or validation")
-    if not isinstance(revision, str) or not revision.strip():
-        raise ValueError("revision must be a nonempty corpus snapshot label")
     if profile == "lm1b":
         if not isinstance(dataset, DatasetDict):
             raise TypeError("lm1b requires a DatasetDict with train and test splits")
@@ -70,17 +67,17 @@ def select_corpus_split(dataset: Dataset | DatasetDict, *, profile: str, split: 
         preprocessing = "none"
     else:
         raise ValueError("profile must be owt, owt_tiny or lm1b")
-    identity = {"dataset": source, "column": column}
-    return CorpusSplit(rows, identity, revision, profile + ":" + split, preprocessing, column)
+    identity = {"column": column}
+    return CorpusSplit(rows, identity, profile + ":" + split, preprocessing, column)
 
 
-def load_corpus_split(path: Pathish, *, profile: str, split: str, revision: str,
+def load_corpus_split(path: Pathish, *, profile: str, split: str,
                       column: str = "text") -> CorpusSplit:
     """Load a local saved snapshot and select its training or validation rows."""
     path = Path(path).expanduser().resolve(strict=True)
     dataset = load_from_disk(str(path))
     return select_corpus_split(dataset, profile=profile, split=split,
-                               source=str(path), revision=revision, column=column)
+                               column=column)
 
 
 @dataclass(frozen=True)

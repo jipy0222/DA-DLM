@@ -42,9 +42,8 @@ def evaluate_summary(config: DictConfig) -> Metadata:
     source, tokenizer = load_generation_source(config)
     if source.task is None or source.task["kind"] != "summary":
         raise ValueError("summary evaluation requires a summary checkpoint with task metadata")
-    for field in ("profile", "revision"):
-        if config.data[field] != source.task[field]:
-            raise ValueError(f"evaluation data.{field} differs from the summary checkpoint")
+    if config.data.profile != source.task["profile"]:
+        raise ValueError("evaluation data.profile differs from the summary checkpoint")
     summary = SummaryConfig(**source.task["summary"])
     options = make_summary_options(source.tokens, **generation_settings(
         config, source, default_length=summary.max_target_tokens,

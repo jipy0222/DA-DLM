@@ -75,7 +75,6 @@ def prepare_text_generation(
     schema: NativeTokenSchema,
     *,
     profile: str,
-    revision: str,
     tokenizer_id: str,
     store_dir: Pathish,
     prompt_length: int,
@@ -105,7 +104,7 @@ def prepare_text_generation(
         raise TypeError("shuffle must be a bool")
 
     corpus = load_corpus_split(
-        corpus_path, profile=profile, split="validation", revision=revision,
+        corpus_path, profile=profile, split="validation",
         column=column,
     )
     source_count = len(corpus)
@@ -120,8 +119,7 @@ def prepare_text_generation(
     store = build_token_store(
         corpus, tokenizer, schema, packing,
         store_dir=Path(store_dir), source=corpus.source,
-        revision=corpus.revision, split=corpus.split,
-        tokenizer_id=tokenizer_id,
+        split=corpus.split, tokenizer_id=tokenizer_id,
     )
     eligible_count = len(store)
     if eligible_count < num_samples:

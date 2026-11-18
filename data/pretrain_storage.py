@@ -46,15 +46,12 @@ def _require_storage_platform() -> None:
 
 def token_store_metadata(
     schema: NativeTokenSchema, config: PackingConfig, *, source: Mapping[str, Any],
-    revision: str, split: str, tokenizer_id: str,
+    split: str, tokenizer_id: str,
 ) -> Metadata:
     """Describe a token store's corpus, tokenizer and packing settings."""
-    if not isinstance(revision, str) or not revision.strip():
-        raise ValueError("revision must be a nonempty corpus snapshot label")
     return {
         "format": _FORMAT,
         "source": source,
-        "revision": revision,
         "split": split,
         "tokenizer": tokenizer_id,
         "special_ids": schema.to_dict(),
@@ -108,7 +105,7 @@ class TokenDataset(Dataset[TokenBatch]):
         self.manifest = manifest
         self.metadata = metadata
         self.dataset_identity = _json_bytes({
-            "path": str(self.path), "metadata": metadata,
+            "metadata": metadata,
         }).decode("utf-8")
         self.sequence_length = width
         self._num_rows = rows
@@ -156,7 +153,7 @@ class TokenDataset(Dataset[TokenBatch]):
 def build_token_store(
     texts: Iterable[str], tokenizer: PreTrainedTokenizerBase, schema: NativeTokenSchema,
     config: PackingConfig, *, store_dir: Pathish, source: Mapping[str, Any],
-    revision: str, split: str, tokenizer_id: str,
+    split: str, tokenizer_id: str,
 ) -> TokenDataset:
     """Reuse a token store or atomically publish a streaming, single-writer build.
 
@@ -164,11 +161,9 @@ def build_token_store(
     than being deleted or replaced. Lock files are intentionally retained:
     unlinking them could allow different builders to lock different inodes.
     ``store_dir`` is the final token directory.
-    ``revision`` identifies the caller's corpus snapshot.
     """
     metadata = token_store_metadata(
-        schema, config, source=source, revision=revision, split=split,
-        tokenizer_id=tokenizer_id,
+        schema, config, source=source, split=split, tokenizer_id=tokenizer_id,
     )
     _require_storage_platform()
     target = Path(store_dir).expanduser().resolve()

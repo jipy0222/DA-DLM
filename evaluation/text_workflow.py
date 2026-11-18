@@ -67,8 +67,8 @@ def evaluate_text(config: DictConfig) -> Metadata:
         raise ValueError("evaluation.store_dir and output_dir must be separate directories")
     prepared = prepare_text_generation(
         config.data.corpus_path, tokenizer, source.tokens,
-        profile=config.data.profile, revision=config.data.revision,
-        tokenizer_id=config.data.tokenizer_id, store_dir=store_dir,
+        profile=config.data.profile, tokenizer_id=config.data.tokenizer_id,
+        store_dir=store_dir,
         prompt_length=prompt_length, generation_length=length,
         num_samples=evaluation.num_samples, shuffle=evaluation.shuffle, seed=config.seed,
         pack_batch_size=config.data.packing_batch_size,

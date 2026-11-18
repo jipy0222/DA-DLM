@@ -50,7 +50,7 @@ def _metadata(config: DictConfig, tokens: NativeTokenSchema, *,
               task: Mapping[str, Any] | None = None) -> dict[str, Any]:
     data = config.data
     summary = _summary_config(data) if task is None else SummaryConfig(**task["summary"])
-    fields = ("profile", "revision", "train_split", "validation_split")
+    fields = ("profile", "train_split", "validation_split")
     options = {name: getattr(data, name) if task is None else task[name] for name in fields}
     return summary_store_metadata(
         tokens, summary, tokenizer_id=data.tokenizer_id, **options)
@@ -70,8 +70,8 @@ def prepare_summary(config: DictConfig) -> dict[str, int | str]:
     summary = _summary_config(data)
     train, valid = prepare_summary_store(
         data.corpus_path, tokenizer, tokens, summary,
-        store_dir=data.store_dir, profile=data.profile, revision=data.revision,
-        tokenizer_id=data.tokenizer_id, train_split=data.train_split,
+        store_dir=data.store_dir, profile=data.profile, tokenizer_id=data.tokenizer_id,
+        train_split=data.train_split,
         validation_split=data.validation_split,
         preparation_num_workers=data.preparation_num_workers,
     )
